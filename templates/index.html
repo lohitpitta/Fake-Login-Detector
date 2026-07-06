@@ -4,97 +4,278 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>URL Checker</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body{
-    background:#FFF7C5;
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0f172a 100%);
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow-x:hidden;
+    position:relative;
+}
+
+body::before{
+    content:'';
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+    pointer-events:none;
+    z-index:0;
 }
 
 .container{
-    width:430px;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    width:90%;
+    max-width:450px;
+    background: rgba(22, 27, 34, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding:40px;
+    border-radius:24px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     text-align:center;
+    position:relative;
+    z-index:1;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+.container::before{
+    content:'';
+    position:absolute;
+    top:-1px;
+    left:-1px;
+    right:-1px;
+    bottom:-1px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+    border-radius:24px;
+    z-index:-1;
+    opacity:0.5;
+    filter:blur(20px);
 }
 
 h1{
-    margin-bottom:10px;
-    color:#222;
+    margin-bottom:8px;
+    color:#ffffff;
+    font-size:28px;
+    font-weight:700;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
 }
 
 p{
-    color:#666;
-    margin-bottom:20px;
+    color:#8b949e;
+    margin-bottom:28px;
+    font-size:14px;
+    font-weight:400;
 }
 
 input[type="text"]{
     width:100%;
-    padding:14px;
-    border:2px solid #F4AE52;
-    border-radius:8px;
-    font-size:16px;
+    padding:16px 18px;
+    border:2px solid rgba(48, 54, 61, 0.8);
+    border-radius:12px;
+    font-size:15px;
     outline:none;
+    background: rgba(13, 17, 23, 0.6);
+    color:#e6edf3;
+    transition: all 0.3s ease;
+    font-family:'Inter', system-ui, sans-serif;
+}
+
+input[type="text"]::placeholder{
+    color:#6e7681;
+}
+
+input[type="text"]:focus{
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 
+        0 0 0 3px rgba(99, 102, 241, 0.1),
+        0 0 20px rgba(99, 102, 241, 0.2);
+    background: rgba(13, 17, 23, 0.8);
 }
 
 button{
     width:100%;
-    margin-top:15px;
-    padding:14px;
+    margin-top:18px;
+    padding:16px;
     border:none;
-    border-radius:8px;
-    background:#F4AE52;
+    border-radius:12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #3b82f6);
     color:white;
     font-size:16px;
-    font-weight:bold;
+    font-weight:600;
     cursor:pointer;
+    transition: all 0.3s ease;
+    font-family:'Inter', system-ui, sans-serif;
+    box-shadow: 
+        0 4px 15px rgba(99, 102, 241, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    position:relative;
+    overflow:hidden;
+}
+
+button::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 button:hover{
-    opacity:0.9;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(99, 102, 241, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+button:hover::before{
+    left:100%;
+}
+
+button:active{
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 
+        0 2px 10px rgba(99, 102, 241, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .result{
-    margin-top:20px;
-    padding:15px;
-    border-radius:10px;
-    font-size:18px;
-    font-weight:bold;
+    margin-top:24px;
+    padding:18px 20px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    opacity:0;
+    transform: translateY(-10px);
+    animation: slideIn 0.4s ease forwards;
+    position:relative;
+    overflow:hidden;
+}
+
+@keyframes slideIn{
+    to{
+        opacity:1;
+        transform: translateY(0);
+    }
 }
 
 .safe{
-    background:#d4edda;
-    color:#155724;
+    background: rgba(34, 197, 94, 0.15);
+    color:#22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 
+        0 0 20px rgba(34, 197, 94, 0.2),
+        inset 0 0 20px rgba(34, 197, 94, 0.05);
+}
+
+.safe::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: radial-gradient(circle at center, rgba(34, 197, 94, 0.1), transparent 70%);
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .warning{
-    background:#fff3cd;
-    color:#856404;
+    background: rgba(234, 179, 8, 0.15);
+    color:#eab308;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    box-shadow: 
+        0 0 20px rgba(234, 179, 8, 0.2),
+        inset 0 0 20px rgba(234, 179, 8, 0.05);
+}
+
+.warning::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: radial-gradient(circle at center, rgba(234, 179, 8, 0.1), transparent 70%);
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .danger{
-    background:#f8d7da;
-    color:#721c24;
+    background: rgba(239, 68, 68, 0.15);
+    color:#ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    box-shadow: 
+        0 0 20px rgba(239, 68, 68, 0.2),
+        inset 0 0 20px rgba(239, 68, 68, 0.05);
+}
+
+.danger::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: radial-gradient(circle at center, rgba(239, 68, 68, 0.1), transparent 70%);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    0%, 100%{
+        opacity:0.5;
+    }
+    50%{
+        opacity:1;
+    }
+}
+
+@media (max-width:480px){
+    .container{
+        padding:30px 24px;
+        width:95%;
+    }
+    
+    h1{
+        font-size:24px;
+    }
+    
+    input[type="text"],
+    button{
+        font-size:14px;
+        padding:14px;
+    }
 }
 
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="card">
 
     <h1>URL Checker</h1>
 
@@ -121,6 +302,28 @@ button:hover{
     {% endif %}
 
 </div>
+
+<script>
+const card = document.getElementById('card');
+
+card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+
+card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+});
+</script>
 
 </body>
 </html>
